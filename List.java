@@ -6,6 +6,17 @@ public class List{
 		root.next = null;
 	}
 
+	public boolean contains(Node n){
+		Node current = root;
+		while(current.next != null){
+			if(current.payload.equals(n)){
+				return true;
+			}
+			current = current.next;
+		}
+		return false;
+	}
+
 	public Node deleteFirst(){
 		if(root != null){
 			Node first = root;
@@ -17,19 +28,18 @@ public class List{
 		}
 	}
 
-	public void delete(int index){
-		//necesito recorrer la lista hasta el index
-		//necesito guardar el anterior al index
-		//unir el anterio al siguiente de current
-		int n = 0;
+	public Node delete(Node n){
 		Node current = root;
 		Node prev= current;
-		while(n < index){
+		while (current != null) {
+			if (current.payload.equals(n)) {
+				prev.next = current.next;
+				return current;
+			}
 			prev = current;
 			current = current.next;
-			n++;
 		}
-		prev.next = current.next;
+		return null;
 	}
 
 	public Node min(){
@@ -60,6 +70,17 @@ public class List{
 			current = current.next;
 		}
 		current.next = n;
+	}
+
+	public Node find(Node n){
+		Node current = root;
+		while (current.next != null) {
+			if (current.payload.equals(n)) {
+				return current;
+			}
+			current = current.next;
+		}
+		return null;
 	}
 
 	public String toString(){
