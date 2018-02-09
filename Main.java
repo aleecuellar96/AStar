@@ -1,12 +1,40 @@
 import java.util.*;
 
-public class Main{
+public class Main {
 
-	public static Cell[][] board;
-	public static List open_list;
-	public static List closed_list;
+	public static int level[][];
 
-	public static void main (String[]args){
+	public static int normalCost = 1;
+	public static float diagonalCost = 1.14f;
+
+	public static List openList;
+	public static List closedList;
+
+	public static Cell[][] world;
+
+	public static void randomWorld (int size) {
+		world = new Cell[size][size];
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				world[i][j] = new Cell (i, j);
+			}
+		}
+	}
+
+	public static void worldFromTemplate (int[][] template, int size) {
+		world = new Cell[size][size];
+
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				Cell cell = new Cell (i, j);
+				cell.valid = template[i][j] == 0;
+				world[i][j] = cell;
+			}
+		}
+	}
+
+	public static void main (String args[]) {
+
 		int [][] template = new int[][]{
 			{0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
 			{0, 1, 0, 1, 1, 1, 1, 1, 1, 0},
@@ -20,65 +48,52 @@ public class Main{
 			{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 		};
 
-		worldFromTemplate(template, 10);
+		worldFromTemplate (template, 10);
 
-		Cell start = new Cell(0, 0);
-		Cell goal = new Cell(0, 6);
+		Cell start = new Cell (0, 0);
+		Cell goal = new Cell (0, 4);
 
-		boolean possible = aStar(start, goal);
+		boolean possible = aStar (start, goal);
 
-		if(possible){
-			System.out.println("There's a solution");
-		}else{
-			System.out.println("No solution");
+		if (possible) {
+			System.out.println ("Yay! A solution was found!");
+		} else {
+			System.out.println ("No solution could be found for this map.");
 		}
 	}
 
-	public static void worldFromTemplate(int[][] template, int size){ //borrar ya que este probado
-		board = new Cell[size][size];
+	public static boolean aStar (Cell start, Cell goal) {
+		openList = new List ();
+		openList.append (start);
 
-		for(int i = 0; i < size; i++){
-			for (int j = 0; j < size; j++) {
-				Cell cell = new Cell (i, j);
-				cell.valid = template[i][j] == 0;
-				board[i][j] = cell;
-			}
-		}
-	}
-
-	public static boolean aStar(Cell start, Cell goal){
-		open_list = new List();
-		open_list.append(start);
-		closed_list = new List();
+		closedList = new List ();
 
 		start.g = 0;
-		start.f = start.g + start.heuristic(goal);
+		start.f = start.g + start.heuristic (goal);
 
-		while(open_list.getSize() != 0){
-			Cell current = open_list.min().payload;
+		while (openList.size () != 0) {
+			Cell current = (Cell) openList.min();
 
-			System.out.println("holi");
-			if(current.equals(goal)){
-				construct_path(current); //path found, tal vez aquí sea goal
+			if (current.equals (goal)) {
+				constructPath (current);
 				return true;
 			}
-			System.out.println("holi2");
 
-			System.out.println(current);
+			System.out.println (current);
 
-			open_list.delete(current);
-			closed_list.append(current);
+			openList.remove (current);
+			closedList.append (current);
 
-			ArrayList<Cell> neighbors = neighbors(current);
+			ArrayList<Cell> neighbors = neighbors (current);
 
-			for(Cell neighbor : neighbors){
-				if(!closed_list.contains(neighbor)){
-					neighbor.f = neighbor.g + neighbor.heuristic(goal);
-					if(!open_list.contains(neighbor)){
-						open_list.append(neighbor);
-					}else{
-						Cell openNeighbor = open_list.find(neighbor);
-						if(neighbor.g < openNeighbor.g){
+			for (Cell neighbor : neighbors) {
+				if (!closedList.contains (neighbor)) {
+					neighbor.f = neighbor.g + neighbor.heuristic (goal);
+					if (!openList.contains (neighbor)) {
+						openList.append (neighbor);
+					} else {
+						Cell openNeighbor = (Cell) openList.find (neighbor);
+						if (neighbor.g < openNeighbor.g) {
 							openNeighbor.g = neighbor.g;
 							openNeighbor.parent = neighbor.parent;
 							System.out.println (neighbor.parent);
@@ -87,51 +102,52 @@ public class Main{
 				}
 			}
 		}
-
-		return false; //no path exists
+		return false;
 	}
 
-	public static ArrayList<Cell> construct_path(Cell cell) {
-		ArrayList<Cell> path = new ArrayList <Cell>();
-		while(cell.parent != null ) {
-			path.add (cell);
-			cell = cell.parent;
-		}
-		return path;
-	}
-
-	public static ArrayList<Cell> neighbors(Cell root) {
-		ArrayList<Cell> cells = new ArrayList<Cell>();
-		for(int i = 0; i < board.length; i++){
-			for(int j = 0; j < board.length; j++){
-				Cell cell = board[i][j].copy();
-				if(cell.valid){
-					if (isDiagonal (root, i, j)) {
-						cell.g = root.g + 1.414f;
-						cell.parent = root;
-					cells.add(cell);
-					}else if(isNormal (root, i, j)) {
-						cell.g = root.g + 1;
-						cell.parent = root;
-						cells.add (cell);
-					}
-				}
-			}
-		}
-		return cells;
-	}
-
-	public static boolean isDiagonal(Cell cell, int x, int y){
+	private static boolean isDiagonal (Cell cell, int x, int y) {
 		return (cell.x + 1 == x && cell.y + 1 == y)
 				|| (cell.x + 1 == x && cell.y - 1 ==y)
 				|| (cell.x - 1 == x && cell.y + 1 ==y)
 				|| (cell.x - 1 == x && cell.y - 1 ==y);
 	}
 
-	public static boolean isNormal(Cell cell, int x, int y){
+	private static boolean isNormal (Cell cell, int x, int y) {
 		return (cell.x + 1 == x && cell.y == y)
 				|| (cell.x == x && cell.y + 1 ==y)
 				|| (cell.x - 1 == x && cell.y ==y)
 				|| (cell.x == x && cell.y - 1 ==y);
+	}
+
+	public static ArrayList<Cell> neighbors (Cell root) {
+		ArrayList<Cell> cells = new ArrayList<Cell> ();
+		for (int i = 0; i < world.length; i++) {
+			for (int j = 0; j < world.length; j++) {
+				Cell cell = world[i][j].clone ();
+				if (cell.valid) {
+					if (isDiagonal (root, i, j)) {
+						cell.g = root.g + diagonalCost;
+						cell.parent = root;
+					cells.add (cell);
+					} else if (isNormal (root, i, j)) {
+						cell.g = root.g + normalCost;
+						cell.parent = root;
+						cells.add (cell);
+					}
+
+				}
+			}
+		}
+		return cells;
+	}
+
+	public static ArrayList<Cell> constructPath (Cell cell) {
+		ArrayList<Cell> path = new ArrayList <Cell> ();
+		while (cell.parent != null ) {
+			//System.out.println (cell);
+			path.add (cell);
+			cell = cell.parent;
+		}
+		return path;
 	}
 }

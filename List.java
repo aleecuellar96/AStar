@@ -1,41 +1,18 @@
-public class List{
+public class List {
+
 	Node root;
 
-	public List(){ //List(Node r)
-		/*root = r;
-		root.next = null;
-		*/
+	public List () {
+		
 	}
 
-	public boolean contains(Cell n){
-		Node current = root;
-		while(current.next != null){
-			if(current.payload.equals(n)){
-				return true;
-			}
-			current = current.next;
-		}
-		return false;
-	}
-
-	public Node deleteFirst(){
-		if(root != null){
-			Node first = root;
-			root = root.next;
-			first.next = null;
-			return first;
-		}else{
-			return null;
-		}
-	}
-
-	public Node delete(Cell n){
+	public Cell remove(Cell n){
 		Node current = root;
 		Node prev= current;
 		while (current != null) {
 			if (current.payload.equals(n)) {
 				prev.next = current.next;
-				return current;
+				return (Cell) current.payload;
 			}
 			prev = current;
 			current = current.next;
@@ -43,26 +20,26 @@ public class List{
 		return null;
 	}
 
-	public Node min(){
-		float min = root.payload.f;
+	public boolean contains (Cell value) {
 		Node current = root;
-		while(current.next != null){
-			if(current.payload.f < min){
-				min = current.payload.f;
+		while (current.next != null) {
+			if (current.payload.equals(value)) {
+				return true;
 			}
 			current = current.next;
 		}
-		return current;
+		return false;
 	}
 
-	public int getSize(){
-		int count = 1; 
+	public Cell find(Cell n){
 		Node current = root;
-		while(current.next != null){
+		while (current.next != null) {
+			if (current.payload.equals(n)) {
+				return (Cell) current.payload;
+			}
 			current = current.next;
-			count++;
 		}
-		return count;
+		return null;
 	}
 
 	public void append(Cell n){
@@ -76,28 +53,48 @@ public class List{
 		}else{
 			root = newNode;
 		}
-		
 	}
 
-	public Cell find(Cell n){
+	public int size() {
+		int count = 1; 
 		Node current = root;
-		while (current.next != null) {
-			if (current.payload.equals(n)) {
-				return current.payload;
-			}
+		while(current.next != null){
 			current = current.next;
+			count++;
+		}
+		return count;
+	}
+
+	public Cell deleteFirst() {
+		if (root != null) {
+			Node first = root;
+			root = root.next;
+			return (Cell) first.payload;
 		}
 		return null;
 	}
 
-	public String toString(){
-		String msg = "";
+	public Cell min(){
+		float min = root.payload.f;
 		Node current = root;
-		msg += current.toString();
 		while(current.next != null){
+			if(current.payload.f < min){
+				min = current.payload.f;
+			}
 			current = current.next;
-			msg += current.toString();
 		}
-		return msg;
+		return (Cell) current.payload;
+	}
+
+	@Override
+	public String toString() {
+		String result = "";
+		Node current = root;
+		result += current.toString () + "\n";
+		while (current.next != null) {
+			current = current.next;
+			result += current.toString () + "\n";
+		}
+		return result;
 	}
 }
