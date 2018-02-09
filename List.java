@@ -1,12 +1,13 @@
 public class List{
 	Node root;
 
-	public List(Node r){
-		root = r;
+	public List(){ //List(Node r)
+		/*root = r;
 		root.next = null;
+		*/
 	}
 
-	public boolean contains(Node n){
+	public boolean contains(Cell n){
 		Node current = root;
 		while(current.next != null){
 			if(current.payload.equals(n)){
@@ -28,7 +29,7 @@ public class List{
 		}
 	}
 
-	public Node delete(Node n){
+	public Node delete(Cell n){
 		Node current = root;
 		Node prev= current;
 		while (current != null) {
@@ -64,19 +65,25 @@ public class List{
 		return count;
 	}
 
-	public void append(Node n){
-		Node current = root;
-		while(current.next != null){
-			current = current.next;
+	public void append(Cell n){
+		Node newNode = new Node(n);
+		if(root !=null){
+			Node current = root;
+			while(current.next != null){
+				current = current.next;
+			}
+			current.next = newNode;
+		}else{
+			root = newNode;
 		}
-		current.next = n;
+		
 	}
 
-	public Node find(Node n){
+	public Cell find(Cell n){
 		Node current = root;
 		while (current.next != null) {
 			if (current.payload.equals(n)) {
-				return current;
+				return current.payload;
 			}
 			current = current.next;
 		}

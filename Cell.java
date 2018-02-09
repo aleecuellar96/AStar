@@ -6,6 +6,8 @@ public class Cell implements Comparable<Cell>{
 	public float g; // pure cost
 	public float h; // heuristic cost
 
+	public boolean valid;//borrar ya que este probado
+
 	public Cell(int _x, int _y){
 		int x = _x;
 		int y = _y;
@@ -24,26 +26,27 @@ public class Cell implements Comparable<Cell>{
 		return (float)h;
 	}
 
-	public int compareTo(Cell other) {
+	public int compareTo(Cell other){
 		if (this.f > other.f) {
 			return 1;
-		} else if (this.f < other.f) {
+		} else if (this.f < other.f){
 			return -1;
 		} else {
 			return 0;
 		}
 	}
 
-	public boolean equals(Object o) {
+	public boolean equals(Object o){
 		Cell other = (Cell) o;
 		return this.y == other.y && this.x == other.x;
 	}
 
-	public Cell copy() {
+	public Cell copy(){
 		Cell cell = new Cell (x, y);
 		cell.f = f;
 		cell.g = g;
 		cell.h = h;
+		cell.valid = valid;
 		return cell;
 	}
 
