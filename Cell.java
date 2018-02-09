@@ -16,7 +16,7 @@ public class Cell{
 	}
 
 	public String toString(){
-		return "[" + x + " , " + y + "] "+ " f: " + f + " g: " + g + "h: " + h;
+		return "[" + x + " , " + y + "] "+ " f: " + f + " g: " + g + " h: " + h;
 	}
 
 }

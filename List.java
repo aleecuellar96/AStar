@@ -17,6 +17,33 @@ public class List{
 		}
 	}
 
+	public void delete(int index){
+		//necesito recorrer la lista hasta el index
+		//necesito guardar el anterior al index
+		//unir el anterio al siguiente de current
+		int n = 0;
+		Node current = root;
+		Node prev= current;
+		while(n < index){
+			prev = current;
+			current = current.next;
+			n++;
+		}
+		prev.next = current.next;
+	}
+
+	public Node min(){
+		float min = root.payload.f;
+		Node current = root;
+		while(current.next != null){
+			if(current.payload.f < min){
+				min = current.payload.f;
+			}
+			current = current.next;
+		}
+		return current;
+	}
+
 	public int getSize(){
 		int count = 1; 
 		Node current = root;
