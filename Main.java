@@ -5,7 +5,7 @@ public class Main {
 	public static int level[][];
 
 	public static int normalCost = 1;
-	public static float diagonalCost = 1.14f;
+	public static float diagonalCost = 1.414f;
 
 	public static List openList;
 	public static List closedList;
@@ -51,14 +51,14 @@ public class Main {
 		worldFromTemplate (template, 10);
 
 		Cell start = new Cell (0, 0);
-		Cell goal = new Cell (0, 4);
+		Cell goal = new Cell (0, 6);
 
 		boolean possible = aStar (start, goal);
 
 		if (possible) {
-			System.out.println ("Yay! A solution was found!");
+			System.out.println ("There's a solution!");
 		} else {
-			System.out.println ("No solution could be found for this map.");
+			System.out.println ("No solution");
 		}
 	}
 

@@ -9,7 +9,8 @@ public class List {
 	public Cell remove(Cell n){
 		Node current = root;
 		Node prev= current;
-		while (current != null) {
+		if(size() != 1){
+			while (current != null) {
 			if (current.payload.equals(n)) {
 				prev.next = current.next;
 				return (Cell) current.payload;
@@ -17,12 +18,17 @@ public class List {
 			prev = current;
 			current = current.next;
 		}
+		prev.next = current.next;
+		}else{
+			root = null;
+		}
+		
 		return null;
 	}
 
 	public boolean contains (Cell value) {
 		Node current = root;
-		while (current.next != null) {
+		while (current != null) {
 			if (current.payload.equals(value)) {
 				return true;
 			}
@@ -76,14 +82,16 @@ public class List {
 
 	public Cell min(){
 		float min = root.payload.f;
+		Node minNode = root;
 		Node current = root;
-		while(current.next != null){
+		while(current != null){
 			if(current.payload.f < min){
 				min = current.payload.f;
+				minNode = current;
 			}
 			current = current.next;
 		}
-		return (Cell) current.payload;
+		return (Cell) minNode.payload;
 	}
 
 	@Override
