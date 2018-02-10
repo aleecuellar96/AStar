@@ -40,13 +40,15 @@ public class Main {
 		worldFromTemplate (template, 10); //quitar ya que este bien
 
 		Cell start = new Cell (0, 0);
-		Cell goal = new Cell (2, 2);
+		Cell goal = new Cell (9, 5);
 
 		if (aStar(start, goal)){
 			System.out.println(":)");
 		}else{
 			System.out.println ("No solution");
 		}
+
+		printBoard();
 	}
 
 	public static boolean aStar(Cell start, Cell goal){
@@ -59,10 +61,12 @@ public class Main {
 		start.f = start.g + start.heuristic(goal);
 
 		while (open_list.getSize() != 0){
-			Cell current = (Cell) open_list.min();
+			Cell current = (Cell)open_list.min();
 
 			if (current.equals(goal)){
-				construct_path(goal);
+				System.out.println(current);
+				closed_list.append(current);
+				construct_path(current);
 				return true;
 			}
 
@@ -161,6 +165,22 @@ public class Main {
 				cell.valid = template[i][j] == 0;
 				board[i][j] = cell;
 			}
+		}
+	}
+
+	public static void printBoard(){
+		for (int i = 0; i < board.length; i++){
+			for (int j = 0; j < board.length; j++){
+				Cell cell = board[i][j].copy();
+				if(closed_list.contains(cell) && cell.valid){
+					System.out.	print(" ->");
+				}else if(!cell.valid){
+					System.out.print(" | ");
+				}else if(cell.valid){
+					System.out.print(" * ");
+				}
+			}
+			System.out.println();
 		}
 	}
 }

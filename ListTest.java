@@ -27,9 +27,6 @@ public class ListTest{
 		list.append(c4);
 		System.out.println(list);
 
-		System.out.println(list.find(c5));
-		List list2 = new List();
-		System.out.println("1: "+ list.size());
-		System.out.println("2: "+ list2.size());
+		System.out.println("h: " + c1.heuristic(c2));
 	}
 }

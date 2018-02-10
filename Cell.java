@@ -20,8 +20,12 @@ public class Cell implements Comparable<Cell> {
 		h = 0;
 	}
 
-	public float heuristic(Cell other){
-		return (float) (Math.pow(this.x - other.x, 2) + Math.pow(this.y - other.y, 2));
+	public float heuristic(Cell other){ 
+		float x= Math.abs(other.x-this.x);
+		float yTemp = this.y + x;
+		float y = Math.abs(other.y-yTemp);
+		return (float) (x) + (y);
+		//return (float) (Math.pow(this.x - other.x, 2) + Math.pow(this.y - other.y, 2));
 	}
 
 	public Cell copy(){
