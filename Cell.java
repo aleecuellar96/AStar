@@ -21,11 +21,14 @@ public class Cell implements Comparable<Cell> {
 	}
 
 	public float heuristic(Cell other){ 
-		float x= Math.abs(other.x-this.x);
-		float yTemp = this.y + x;
-		float y = Math.abs(other.y-yTemp);
-		return (float) (x) + (y);
-		//return (float) (Math.pow(this.x - other.x, 2) + Math.pow(this.y - other.y, 2));
+		/*float d_max = Math.max(Math.abs(this.x-other.x), Math.abs(this.y-other.y));
+		float d_min = Math.min(Math.abs(this.x-other.x), Math.abs(this.y-other.y));
+		float c_n=1.0f;//non diagonal
+		float c_d=1.414f; //diagonal
+		float h= (c_d*d_min) + (c_n*(d_max-d_min));
+		return h;
+		*/
+		return (float) (Math.pow(this.x - other.x, 2) + Math.pow(this.y - other.y, 2));
 	}
 
 	public Cell copy(){

@@ -27,6 +27,6 @@ public class ListTest{
 		list.append(c4);
 		System.out.println(list);
 
-		System.out.println("h: " + c1.heuristic(c2));
+		System.out.println("h: " + c1.heuristic(c4));
 	}
 }

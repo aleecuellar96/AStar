@@ -4,11 +4,17 @@
 */
 
 /*
-	Formulate the problem
+	Formulate the problem:
+	Initial state: A given Cell to start
+	Actions: Moves left, right, top, down, and diagonal
+	Transition: Select to move to the cell of lower cost
+	Goal Test: Given cell to reach, going from A tu Goal
+	Path Cost: the cost is given by f
 */
 
 /*
-	Characterize the environment
+	Characterize the environment: 
+	Deterministic, Sequential, Static, Discrete, Known
 */
 
 //hacer print tablero
@@ -40,7 +46,7 @@ public class Main {
 		worldFromTemplate (template, 10); //quitar ya que este bien
 
 		Cell start = new Cell (0, 0);
-		Cell goal = new Cell (9, 5);
+		Cell goal = new Cell (7, 3);
 
 		if (aStar(start, goal)){
 			System.out.println(":)");
@@ -66,7 +72,7 @@ public class Main {
 			if (current.equals(goal)){
 				System.out.println(current);
 				closed_list.append(current);
-				construct_path(current);
+				construct_path(goal);
 				return true;
 			}
 
