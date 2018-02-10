@@ -46,7 +46,9 @@ public class Main {
 		worldFromTemplate (template, 10);
 
 		Cell start = new Cell (0, 0);
-		Cell goal = new Cell (2, 6);
+		Cell goal = new Cell (0, 6);
+
+		//System.out.println(aStar (start, goal));
 
 		if (aStar (start, goal)) {
 			System.out.println (":)");
@@ -68,7 +70,7 @@ public class Main {
 			Cell current = (Cell) open_list.min();
 
 			if (current.equals (goal)) {
-				construct_path (current);
+				construct_path (goal);
 				return true;
 			}
 
@@ -90,6 +92,8 @@ public class Main {
 							openNeighbor.g = neighbor.g;
 							openNeighbor.parent = neighbor.parent;
 							System.out.println (neighbor.parent);
+						}else{
+
 						}
 					}
 				}

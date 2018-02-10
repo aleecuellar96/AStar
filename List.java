@@ -39,7 +39,7 @@ public class List {
 
 	public Cell find(Cell n){
 		Node current = root;
-		while (current.next != null) {
+		while (current != null) {
 			if (current.payload.equals(n)) {
 				return (Cell) current.payload;
 			}
@@ -64,10 +64,15 @@ public class List {
 	public int size() {
 		int count = 1; 
 		Node current = root;
-		while(current.next != null){
+		if(root != null){
+			while(current.next != null){
 			current = current.next;
 			count++;
+			}
+		}else{
+			count = 0;
 		}
+		
 		return count;
 	}
 
