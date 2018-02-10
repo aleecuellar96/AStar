@@ -1,4 +1,4 @@
-public class Node implements Comparable<Node> {
+public class Node{
 
 	public Node next;
 
@@ -9,17 +9,11 @@ public class Node implements Comparable<Node> {
 	}
 
 	@Override
-	public boolean equals (Object o) {
+	public boolean equals(Object o){
 		Node other = (Node) o;
 		return this.payload == other.payload;
 	}
 
-	@Override
-	public int compareTo (Node other) {
-		return this.payload.compareTo (other.payload);
-	}
-
-	@Override
 	public String toString(){
 		return "N " + payload.toString() + "\n";
 	}

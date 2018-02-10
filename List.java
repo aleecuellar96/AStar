@@ -2,50 +2,8 @@ public class List {
 
 	Node root;
 
-	public List () {
+	public List(){
 		
-	}
-
-	public Cell remove(Cell n){
-		Node current = root;
-		Node prev= current;
-		if(size() != 1){
-			while (current != null) {
-			if (current.payload.equals(n)) {
-				prev.next = current.next;
-				return (Cell) current.payload;
-			}
-			prev = current;
-			current = current.next;
-		}
-		prev.next = current.next;
-		}else{
-			root = null;
-		}
-		
-		return null;
-	}
-
-	public boolean contains (Cell value) {
-		Node current = root;
-		while (current != null) {
-			if (current.payload.equals(value)) {
-				return true;
-			}
-			current = current.next;
-		}
-		return false;
-	}
-
-	public Cell find(Cell n){
-		Node current = root;
-		while (current != null) {
-			if (current.payload.equals(n)) {
-				return (Cell) current.payload;
-			}
-			current = current.next;
-		}
-		return null;
 	}
 
 	public void append(Cell n){
@@ -61,7 +19,7 @@ public class List {
 		}
 	}
 
-	public int size() {
+	public int getSize() {
 		int count = 1; 
 		Node current = root;
 		if(root != null){
@@ -82,6 +40,26 @@ public class List {
 			root = root.next;
 			return (Cell) first.payload;
 		}
+		return null;
+	}
+
+	public Cell delete(Cell n){
+		Node current = root;
+		Node prev= current;
+		if(getSize() != 1){
+			while (current != null) {
+			if (current.payload.equals(n)) {
+				prev.next = current.next;
+				return (Cell) current.payload;
+			}
+			prev = current;
+			current = current.next;
+		}
+		prev.next = current.next;
+		}else{
+			root = null;
+		}
+		
 		return null;
 	}
 
@@ -109,5 +87,27 @@ public class List {
 			result += current.toString () + "\n";
 		}
 		return result;
+	}
+
+	public Cell find(Cell n){
+		Node current = root;
+		while (current != null) {
+			if (current.payload.equals(n)) {
+				return (Cell) current.payload;
+			}
+			current = current.next;
+		}
+		return null;
+	}
+
+	public boolean contains(Cell n){
+		Node current = root;
+		while (current != null) {
+			if (current.payload.equals(n)) {
+				return true;
+			}
+			current = current.next;
+		}
+		return false;
 	}
 }
