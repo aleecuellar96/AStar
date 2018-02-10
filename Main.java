@@ -46,7 +46,7 @@ public class Main {
 		worldFromTemplate (template, 10); //quitar ya que este bien
 
 		Cell start = new Cell (0, 0);
-		Cell goal = new Cell (7, 3);
+		Cell goal = new Cell (0, 6);
 
 		if (aStar(start, goal)){
 			System.out.println(":)");
@@ -94,8 +94,6 @@ public class Main {
 							openNeighbor.g = neighbor.g;
 							openNeighbor.parent = neighbor.parent;
 							System.out.println (neighbor.parent);
-						}else{
-
 						}
 					}
 				}
