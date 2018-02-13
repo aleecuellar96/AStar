@@ -52,12 +52,15 @@ public class Main {
 		  {0, 0, 0, 0, 0, 1, 0, 0, 0, 0},
 		  {0, 0, 0, 0, 0, 1, 1, 0, 0, 0},
 		  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 		};
 
 		worldFromTemplate (template, 10); //quitar ya que este bien
 
 		Cell start = new Cell (1, 0);
-		Cell goal = new Cell (4, 4);
+		Cell goal = new Cell (4, 9);
 
 		if (aStar(start, goal)){
 			System.out.println(":)");
