@@ -26,7 +26,25 @@ public class ListTest{
 		list.append(c3);
 		list.append(c4);
 		System.out.println(list);
+		System.out.println(list.getSize());
 
-		System.out.println("h: " + c1.heuristic(c4));
+		list.delete(c1);
+		System.out.println(list);
+		System.out.println(list.getSize());
+
+		list.delete(c4);
+		System.out.println(list);
+		System.out.println(list.getSize());
+
+		list.delete(c3);
+		System.out.println(list);
+		System.out.println(list.getSize());
+
+		list.delete(c2);
+		System.out.println(list);
+		System.out.println(list.getSize());
+		
+		
+		//System.out.println("h: " + c1.heuristic(c4));
 	}
 }

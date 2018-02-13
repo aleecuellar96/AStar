@@ -25,12 +25,14 @@ public class Main {
 
 	public static List open_list;
 	public static List closed_list;
+	public static ArrayList<Cell> finalPath = new ArrayList<Cell>();
 
 	public static Cell[][] board;
+	public static Cell[][] world;
 
 	public static void main (String args[]){
 
-		int [][] template = new int[][]{ //quitar ya que este bien
+		/*int [][] template = new int[][]{ //quitar ya que este bien
 			{0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
 			{0, 1, 0, 1, 1, 1, 1, 1, 1, 0},
 			{0, 1, 0, 1, 1, 1, 0, 0, 1, 0},
@@ -41,12 +43,21 @@ public class Main {
 			{0, 1, 0, 0, 0, 0, 0, 0, 1, 0},
 			{0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+		};*/
+		int [][] template = new int[][]{
+		  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		  {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+		  {0, 0, 1, 1, 0, 0, 0, 0, 0, 0},
+		  {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+		  {0, 0, 0, 0, 0, 1, 0, 0, 0, 0},
+		  {0, 0, 0, 0, 0, 1, 1, 0, 0, 0},
+		  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		};
 
 		worldFromTemplate (template, 10); //quitar ya que este bien
 
-		Cell start = new Cell (0, 0);
-		Cell goal = new Cell (0, 6);
+		Cell start = new Cell (1, 0);
+		Cell goal = new Cell (4, 4);
 
 		if (aStar(start, goal)){
 			System.out.println(":)");
@@ -54,7 +65,8 @@ public class Main {
 			System.out.println ("No solution");
 		}
 
-		printBoard();
+		printBoard(start);
+		//printWorld(10);
 	}
 
 	public static boolean aStar(Cell start, Cell goal){
@@ -72,7 +84,8 @@ public class Main {
 			if (current.equals(goal)){
 				System.out.println(current);
 				closed_list.append(current);
-				construct_path(goal);
+				finalPath = construct_path(current);
+				construct_path(current);
 				return true;
 			}
 
@@ -126,7 +139,7 @@ public class Main {
 
 	public static ArrayList<Cell> construct_path(Cell c){
 		ArrayList<Cell> path = new ArrayList <Cell>();
-		while (c.parent != null ){
+		while (c.parent != null ){ //si path no contiene a c.parent
 			path.add (c);
 			c = c.parent;
 		}
@@ -152,10 +165,21 @@ public class Main {
 	}
 
 	public static void createBoard(int size){
-		board = new Cell[size][size];
+		world = new Cell[size][size];
 		for (int i = 0; i < size; i++){
 			for (int j = 0; j < size; j++){
 				board[i][j] = new Cell (i, j);
+			}
+		}
+		for (int i = 0; i < board.length; i++){
+			for (int j = 0; j < board.length; j++){
+				//Cell cell = board[i][j].copy();
+				int x = (Math.random() < 0.5)?0:1;
+				if(x == 1){
+					board[i][j].valid = false;
+				}else{
+					board[i][j].valid = true;
+				}
 			}
 		}
 	}
@@ -172,11 +196,32 @@ public class Main {
 		}
 	}
 
-	public static void printBoard(){
+	public static void printBoard(Cell start){
 		for (int i = 0; i < board.length; i++){
 			for (int j = 0; j < board.length; j++){
 				Cell cell = board[i][j].copy();
-				if(closed_list.contains(cell) && cell.valid){
+				if(finalPath.contains(cell) && cell.valid){
+					System.out.	print(" ->");
+				}else if(cell.equals(start)){
+					System.out.	print(" ->");
+				}else if(!cell.valid){
+					System.out.print(" | ");
+				}else if(cell.valid){
+					System.out.print(" * ");
+				}
+			}
+			System.out.println();
+		}
+	}
+
+
+	public static void printWorld(Cell start){
+		for (int i = 0; i < world.length; i++){
+			for (int j = 0; j < world.length; j++){
+				Cell cell = world[i][j].copy();
+				if(finalPath.contains(cell) && cell.valid){
+					System.out.	print(" ->");
+				}else if(cell.equals(start)){
 					System.out.	print(" ->");
 				}else if(!cell.valid){
 					System.out.print(" | ");

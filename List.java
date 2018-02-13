@@ -46,18 +46,22 @@ public class List {
 	public Cell delete(Cell n){
 		Node current = root;
 		Node prev= current;
-		if(getSize() != 1){
-			while (current != null) {
-			if (current.payload.equals(n)) {
-				prev.next = current.next;
-				return (Cell) current.payload;
-			}
-			prev = current;
-			current = current.next;
-		}
-		prev.next = current.next;
+		if(current.payload.equals(n)){
+			root = current.next;
 		}else{
-			root = null;
+			if(getSize() != 1){
+				while (current != null) {
+				if (current.payload.equals(n)) {
+					prev.next = current.next;
+					return (Cell) current.payload;
+				}
+				prev = current;
+				current = current.next;
+				}
+				prev.next = current.next;
+			}else{
+				root = null;
+			}
 		}
 		
 		return null;
