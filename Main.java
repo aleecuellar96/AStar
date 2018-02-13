@@ -28,41 +28,13 @@ public class Main {
 	public static ArrayList<Cell> finalPath = new ArrayList<Cell>();
 
 	public static Cell[][] board;
-	public static Cell[][] world;
 
 	public static void main (String args[]){
 
-		//using the template of class
-		/*int [][] template = new int[][]{
-		  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		  {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-		  {0, 0, 1, 1, 0, 0, 0, 0, 0, 0},
-		  {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-		  {0, 0, 0, 0, 0, 1, 0, 0, 0, 0},
-		  {0, 0, 0, 0, 0, 1, 1, 0, 0, 0},
-		  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-		};
-
-		worldFromTemplate (template, 10); 
-
-		Cell start = new Cell (1, 0);
-		Cell goal = new Cell (4, 9);
-
-		if (aStar(start, goal)){
-			System.out.println(":)");
-		}else{
-			System.out.println ("No solution");
-		}
-
-		printBoard(board, start);*/
-		//For creating a random board of 50x50
 		Cell start = new Cell (0, 0);
 		
 		createBoard(10);
-		printBoard(world, start);
+		printBoard(board, start);
 		System.out.println("-------------------");
 
 		Scanner reader = new Scanner(System.in);
@@ -79,7 +51,7 @@ public class Main {
 		}else{
 			System.out.println ("No solution");
 		}
-		printBoard(world, start);
+		printBoard(board, start);
 	}
 
 	public static boolean aStar(Cell start, Cell goal){
@@ -130,9 +102,9 @@ public class Main {
 
 	public static ArrayList<Cell> neighbors(Cell c){
 		ArrayList<Cell> cells = new ArrayList<Cell>();
-		for (int i = 0; i < world.length; i++){
-			for (int j = 0; j < world.length; j++){
-				Cell cell = world[i][j].copy();
+		for (int i = 0; i < board.length; i++){
+			for (int j = 0; j < board.length; j++){
+				Cell cell = board[i][j].copy();
 				if (cell.valid){
 					if (diagonal (c, i, j)){
 						cell.g = c.g + 1.414f;
@@ -152,7 +124,7 @@ public class Main {
 
 	public static ArrayList<Cell> construct_path(Cell c){
 		ArrayList<Cell> path = new ArrayList <Cell>();
-		while (c.parent != null ){ //si path no contiene a c.parent
+		while (c.parent != null ){
 			path.add (c);
 			c = c.parent;
 		}
@@ -178,38 +150,26 @@ public class Main {
 	}
 
 	public static void createBoard(int size){
-		world = new Cell[size][size];
+		board = new Cell[size][size];
 		for (int i = 0; i < size; i++){
 			for (int j = 0; j < size; j++){
-				world[i][j] = new Cell (i, j);
+				board[i][j] = new Cell (i, j);
 			}
 		}
-		for (int i = 0; i < world.length; i++){
-			for (int j = 0; j < world.length; j++){
+		for (int i = 0; i < board.length; i++){
+			for (int j = 0; j < board.length; j++){
 				int x = (Math.random() < 0.5)?0:1;
 				if(i==0 && j == 0){
-					world[i][j].valid = true;
+					board[i][j].valid = true;
 
 				}else{
 					if(x == 1){
-					world[i][j].valid = false;
+					board[i][j].valid = false;
 					}else{
-						world[i][j].valid = true;
+						board[i][j].valid = true;
 					}
 				}
 				
-			}
-		}
-	}
-
-	public static void worldFromTemplate (int[][] template, int size) {  //quitar ya que este bien
-		board = new Cell[size][size];
-
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				Cell cell = new Cell (i, j);
-				cell.valid = template[i][j] == 0;
-				board[i][j] = cell;
 			}
 		}
 	}
