@@ -32,19 +32,8 @@ public class Main {
 
 	public static void main (String args[]){
 
-		/*int [][] template = new int[][]{ //quitar ya que este bien
-			{0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
-			{0, 1, 0, 1, 1, 1, 1, 1, 1, 0},
-			{0, 1, 0, 1, 1, 1, 0, 0, 1, 0},
-			{0, 1, 0, 1, 0, 0, 0, 0, 1, 0},
-			{0, 1, 0, 1, 0, 1, 1, 1, 1, 0},
-			{0, 1, 0, 1, 0, 0, 0, 0, 1, 0},
-			{0, 1, 0, 1, 1, 1, 0, 0, 1, 0},
-			{0, 1, 0, 0, 0, 0, 0, 0, 1, 0},
-			{0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-		};*/
-		int [][] template = new int[][]{
+		//using the template of class
+		/*int [][] template = new int[][]{
 		  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		  {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
 		  {0, 0, 1, 1, 0, 0, 0, 0, 0, 0},
@@ -57,7 +46,7 @@ public class Main {
 		  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 		};
 
-		/*worldFromTemplate (template, 10); //quitar ya que este bien
+		worldFromTemplate (template, 10); 
 
 		Cell start = new Cell (1, 0);
 		Cell goal = new Cell (4, 9);
@@ -68,10 +57,29 @@ public class Main {
 			System.out.println ("No solution");
 		}
 
-		printBoard(start);*/
-		Cell start = new Cell (1, 0);
+		printBoard(board, start);*/
+		//For creating a random board of 50x50
+		Cell start = new Cell (0, 0);
+		
 		createBoard(10);
-		printWorld(start);
+		printBoard(world, start);
+		System.out.println("-------------------");
+
+		Scanner reader = new Scanner(System.in);
+		System.out.println("Enter x goal: ");
+		int x = reader.nextInt();
+
+		System.out.println("Enter y goal: ");
+		int y = reader.nextInt();
+
+		Cell goal = new Cell (x, y);
+
+		if (aStar(start, goal)){
+			System.out.println(":)");
+		}else{
+			System.out.println ("No solution");
+		}
+		printBoard(world, start);
 	}
 
 	public static boolean aStar(Cell start, Cell goal){
@@ -122,9 +130,9 @@ public class Main {
 
 	public static ArrayList<Cell> neighbors(Cell c){
 		ArrayList<Cell> cells = new ArrayList<Cell>();
-		for (int i = 0; i < board.length; i++){
-			for (int j = 0; j < board.length; j++){
-				Cell cell = board[i][j].copy();
+		for (int i = 0; i < world.length; i++){
+			for (int j = 0; j < world.length; j++){
+				Cell cell = world[i][j].copy();
 				if (cell.valid){
 					if (diagonal (c, i, j)){
 						cell.g = c.g + 1.414f;
@@ -178,13 +186,18 @@ public class Main {
 		}
 		for (int i = 0; i < world.length; i++){
 			for (int j = 0; j < world.length; j++){
-				//Cell cell = board[i][j].copy();
 				int x = (Math.random() < 0.5)?0:1;
-				if(x == 1){
-					world[i][j].valid = false;
-				}else{
+				if(i==0 && j == 0){
 					world[i][j].valid = true;
+
+				}else{
+					if(x == 1){
+					world[i][j].valid = false;
+					}else{
+						world[i][j].valid = true;
+					}
 				}
+				
 			}
 		}
 	}
@@ -201,30 +214,13 @@ public class Main {
 		}
 	}
 
-	public static void printBoard(Cell start){
+	public static void printBoard(Cell[][] board, Cell start){
 		for (int i = 0; i < board.length; i++){
 			for (int j = 0; j < board.length; j++){
 				Cell cell = board[i][j].copy();
 				if(finalPath.contains(cell) && cell.valid){
 					System.out.	print(" ->");
 				}else if(cell.equals(start)){
-					System.out.	print(" ->");
-				}else if(!cell.valid){
-					System.out.print(" | ");
-				}else if(cell.valid){
-					System.out.print(" * ");
-				}
-			}
-			System.out.println();
-		}
-	}
-
-
-	public static void printWorld(Cell start){
-		for (int i = 0; i < world.length; i++){
-			for (int j = 0; j < world.length; j++){
-				Cell cell = world[i][j].copy();
-				if(finalPath.contains(cell) && cell.valid){
 					System.out.	print(" ->");
 				}else if(!cell.valid){
 					System.out.print(" | ");
