@@ -57,7 +57,7 @@ public class Main {
 		  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 		};
 
-		worldFromTemplate (template, 10); //quitar ya que este bien
+		/*worldFromTemplate (template, 10); //quitar ya que este bien
 
 		Cell start = new Cell (1, 0);
 		Cell goal = new Cell (4, 9);
@@ -68,8 +68,10 @@ public class Main {
 			System.out.println ("No solution");
 		}
 
-		printBoard(start);
-		//printWorld(10);
+		printBoard(start);*/
+		Cell start = new Cell (1, 0);
+		createBoard(10);
+		printWorld(start);
 	}
 
 	public static boolean aStar(Cell start, Cell goal){
@@ -171,17 +173,17 @@ public class Main {
 		world = new Cell[size][size];
 		for (int i = 0; i < size; i++){
 			for (int j = 0; j < size; j++){
-				board[i][j] = new Cell (i, j);
+				world[i][j] = new Cell (i, j);
 			}
 		}
-		for (int i = 0; i < board.length; i++){
-			for (int j = 0; j < board.length; j++){
+		for (int i = 0; i < world.length; i++){
+			for (int j = 0; j < world.length; j++){
 				//Cell cell = board[i][j].copy();
 				int x = (Math.random() < 0.5)?0:1;
 				if(x == 1){
-					board[i][j].valid = false;
+					world[i][j].valid = false;
 				}else{
-					board[i][j].valid = true;
+					world[i][j].valid = true;
 				}
 			}
 		}
@@ -223,8 +225,6 @@ public class Main {
 			for (int j = 0; j < world.length; j++){
 				Cell cell = world[i][j].copy();
 				if(finalPath.contains(cell) && cell.valid){
-					System.out.	print(" ->");
-				}else if(cell.equals(start)){
 					System.out.	print(" ->");
 				}else if(!cell.valid){
 					System.out.print(" | ");
