@@ -17,8 +17,6 @@
 	Deterministic, Sequential, Static, Discrete, Known
 */
 
-//hacer print tablero
-
 import java.util.*;
 
 public class Main {
@@ -28,12 +26,13 @@ public class Main {
 	public static ArrayList<Cell> finalPath = new ArrayList<Cell>();
 
 	public static Cell[][] board;
+	public static int numWalls = 0;
 
 	public static void main (String args[]){
-
-		Cell start = new Cell (0, 0);
 		
-		createBoard(10);
+		//Change to 50
+		createBoard(30);
+		Cell start = new Cell (0, 0);
 		printBoard(board, start);
 		System.out.println("-------------------");
 
@@ -43,8 +42,15 @@ public class Main {
 
 		System.out.println("Enter y goal: ");
 		int y = reader.nextInt();
-
-		Cell goal = new Cell (x, y);
+		Cell goal = new Cell (0, 0);
+		for(int i=0; i<board.length;i++){
+			if(board[i][29].valid){
+				goal = new Cell(i,29);
+				break;
+			}
+		}
+		System.out.println("START: [0,0]    GOAL : " + goal);
+		//Cell goal = new Cell (x, y);
 
 		if (aStar(start, goal)){
 			System.out.println(":)");
@@ -52,6 +58,7 @@ public class Main {
 			System.out.println ("No solution");
 		}
 		printBoard(board, start);
+		System.out.println(numWalls);
 	}
 
 	public static boolean aStar(Cell start, Cell goal){
@@ -159,16 +166,31 @@ public class Main {
 		for (int i = 0; i < board.length; i++){
 			for (int j = 0; j < board.length; j++){
 				int x = (Math.random() < 0.5)?0:1;
-				if(i==0 && j == 0){
+				if(numWalls<800){
+					if(i==0 && j == 0){
+						board[i][j].valid = true;
+					}else{
+						if(x == 1){
+							board[i][j].valid = false;
+							numWalls++;
+						}else{
+							board[i][j].valid = true;
+						}
+					}
+				}else{
+					board[i][j].valid = true;
+				}
+				/*if(i==0 && j == 0){
 					board[i][j].valid = true;
 
 				}else{
 					if(x == 1){
-					board[i][j].valid = false;
+						board[i][j].valid = false;
+						numWalls++;
 					}else{
 						board[i][j].valid = true;
 					}
-				}
+				}*/
 				
 			}
 		}
