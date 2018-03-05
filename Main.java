@@ -30,27 +30,29 @@ public class Main {
 
 	public static void main (String args[]){
 		
-		//Change to 50
-		createBoard(30);
-		Cell start = new Cell (0, 0);
-		printBoard(board, start);
-		System.out.println("-------------------");
-
 		Scanner reader = new Scanner(System.in);
-		System.out.println("Enter x goal: ");
-		int x = reader.nextInt();
-
-		System.out.println("Enter y goal: ");
-		int y = reader.nextInt();
+		System.out.println("Size: ");
+		int size = reader.nextInt();
+		createBoard(size);
+		Cell start = new Cell (0, 0);
+		for(int i=0; i<board.length;i++){
+			if(board[i][size-1].valid){
+				start = new Cell(i,0);
+				break;
+			}
+		}
+		printBoard(board, start);
+		
 		Cell goal = new Cell (0, 0);
 		for(int i=0; i<board.length;i++){
-			if(board[i][29].valid){
+			if(board[i][size-1].valid){
 				goal = new Cell(i,29);
 				break;
 			}
 		}
-		System.out.println("START: [0,0]    GOAL : " + goal);
-		//Cell goal = new Cell (x, y);
+		System.out.println("---------------------------------------");
+		System.out.println("START: "+ start  + " GOAL : " + goal);
+		System.out.println("--------------------------------------");
 
 		if (aStar(start, goal)){
 			System.out.println(":)");
@@ -74,14 +76,14 @@ public class Main {
 			Cell current = (Cell)open_list.min();
 
 			if (current.equals(goal)){
-				System.out.println(current);
+				//System.out.println(current);
 				closed_list.append(current);
 				finalPath = construct_path(current);
 				construct_path(current);
 				return true;
 			}
 
-			System.out.println(current);
+			//System.out.println(current);
 
 			open_list.delete(current);
 			closed_list.append(current);
@@ -98,7 +100,7 @@ public class Main {
 						if (neighbor.g < openNeighbor.g){
 							openNeighbor.g = neighbor.g;
 							openNeighbor.parent = neighbor.parent;
-							System.out.println (neighbor.parent);
+							//System.out.println (neighbor.parent);
 						}
 					}
 				}
